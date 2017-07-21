@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+  registry:
+    image: registry:2
+    restart: always
+    environment:
+        - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+
+  nginx:
+    image: nginx:1.13
+    restart: always
+    volumes:
+        - ./nginx.conf.template:/etc/nginx/nginx.conf.template
+        - ./cube.pvt.crt:/root/cube.pvt.crt
+        - ./cube.pvt.key:/root/cube.pvt.key
+    environment:
+        - NGINX_HOST=cube.pvt
+    ports: 
+        - "5000:443"
+    command: /bin/bash -c "envsubst '${NGINX_HOST}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
