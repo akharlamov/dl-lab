@@ -1,1 +1,3 @@
-cube.pvt.*
+*.crt
+*.key
+

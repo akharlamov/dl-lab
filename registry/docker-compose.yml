@@ -4,6 +4,8 @@ services:
   registry:
     image: registry:2
     restart: always
+    volumes:
+        - /data/dev/docker-registry:/var/lib/registry
     environment:
         - REGISTRY_HTTP_ADDR=0.0.0.0:5000
 
@@ -11,12 +13,11 @@ services:
     image: nginx:1.13
     restart: always
     volumes:
-        - ./nginx.conf.template:/etc/nginx/nginx.conf.template
-        - ./cube.pvt.crt:/root/cube.pvt.crt
-        - ./cube.pvt.key:/root/cube.pvt.key
-    environment:
-        - NGINX_HOST=cube.pvt
+        - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        - ./docker-registry.pvt.crt:/root/docker-registry.pvt.crt
+        - ./docker-registry.pvt.key:/root/docker-registry.pvt.key
+        - ../logs:/var/log/nginx
     ports: 
-        - "5000:443"
-    command: /bin/bash -c "envsubst '${NGINX_HOST}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+        - "443:443"
+        - "80:80"
 
