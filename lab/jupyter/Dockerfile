@@ -1,16 +1,14 @@
 FROM tensorflow/tensorflow:latest-gpu
 
-RUN apt-get update
-
 # Theano requires C++ compiler to produce effective code
-RUN apt-get install -y --no-install-recommends g++ libopenblas-dev cmake git
+RUN apt-get update && apt-get install -y --no-install-recommends g++ libopenblas-dev cmake git \
+	libgdcm2.6 libgdcm-cil libgdcm-tools gdcm-doc python-gdcm \
+	libvtkgdcm2.6 libvtkgdcm-cil libvtkgdcm-tools libvtkgdcm2-dev python-vtkgdcm
 
-RUN pip install nose pydot-ng pycuda cython
+RUN pip install nose pydot-ng pycuda cython \
+	&& pip install keras Lasagne lasagne_visualizer \
+	&& pip install --upgrade https://github.com/Theano/Theano/archive/master.zip
 
-RUN pip install keras Lasagne lasagne_visualizer 
-RUN pip install --upgrade https://github.com/Theano/Theano/archive/master.zip
-
-RUN echo "Building libgpuarray"
 RUN cd /root \
 	&& git clone https://github.com/Theano/libgpuarray.git \
 	&& cd libgpuarray \
