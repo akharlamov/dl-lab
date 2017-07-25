@@ -2,7 +2,7 @@
 
 apt-get update
 
-apt-get install -y --no-install-recommends g++ autoconf automake cmake git ca-certificates make imagemagick
+apt-get install -y --no-install-recommends g++ autoconf automake cmake git ca-certificates make imagemagick netpbm
 
 mkdir /data
 
@@ -17,5 +17,5 @@ git clone https://github.com/thorfdbg/libjpeg.git \
 
 pwd
 
-#apt remove -y g++ autoconf automake cmake make
+apt remove -y g++ autoconf automake cmake make
 

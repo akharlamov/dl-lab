@@ -1,6 +1,23 @@
-version: "2"
+version: "3.0"
 
 services:
+  jupyter:
+    image: akharlamov/jupyter:latest
+    build: ./jupyter
+    ports:
+      - 8888:8888
+    volumes:
+      - /data:/data
+      - /data/dev/notebooks:/notebooks
 
+  keras-mon:
+    image: akharlamov/keras-mon:latest
+    build: ./keras-mon
+    ports:
+      - 9000:9000
+
+  lib-tools:
+    image: akharlamov/lib-tools:latest
+    build: ./lib-tools
 
 
