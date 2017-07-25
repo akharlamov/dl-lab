@@ -1,4 +1,8 @@
-version: "3.0"
+version: "3"
+
+volumes:
+  nvidia_driver_375.66:
+    external: true
 
 services:
   jupyter:
@@ -9,6 +13,11 @@ services:
     volumes:
       - /data:/data
       - /data/dev/notebooks:/notebooks
+      - nvidia_driver_375.66:/usr/local/nvidia:ro
+    devices:
+      - /dev/nvidia0:/dev/nvidia0
+      - /dev/nvidiactl:/dev/nvidiactl
+      - /dev/nvidia-uvm:/dev/nvidia-uvm
 
   keras-mon:
     image: akharlamov/keras-mon:latest
