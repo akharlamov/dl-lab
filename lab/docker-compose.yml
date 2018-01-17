@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 
 volumes:
   nvidia_driver_375.66:
@@ -19,11 +19,13 @@ services:
       - /dev/nvidiactl:/dev/nvidiactl
       - /dev/nvidia-uvm:/dev/nvidia-uvm
 
-  keras-mon:
-    image: akharlamov/keras-mon:latest
-    build: ./keras-mon
+  elasticsearch:
+    image: library/elasticsearch:5.5
+
+  grafana:
+    image: grafana/grafana
     ports:
-      - 9000:9000
+      - 3000:3000
 
   lib-tools:
     image: akharlamov/lib-tools:latest
